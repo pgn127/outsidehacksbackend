@@ -57,3 +57,4 @@ typings/
 # dotenv environment variables file
 .env
 
+outside_vision_credentials.json

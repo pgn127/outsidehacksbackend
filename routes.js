@@ -62,7 +62,7 @@ router.post('/api/recognizeCelebs', upload.single('photo'), function(req,res, ne
         else  {
             console.log('resulting data', data);
             // celebrityFaces: data.CelebrityFaces, unrecognizedFaces: data.UnrecognizedFaces})
-            res.status(200).json({data: data})
+            res.status(200).json(data)
         }             // successful response
     });
 })

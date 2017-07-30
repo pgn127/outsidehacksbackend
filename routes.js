@@ -75,8 +75,8 @@ router.post('/api/recognizeCelebs', upload.single('photo'), function(req,res, ne
 
 var ACRCloud = require( 'acr-cloud' );
 var acr = new ACRCloud({
-	access_key: process.env.ACR_ACCESS_KEY,//'5d4b56f25644448cd602a1185faf2c01',
-	access_secret: process.env.ACR_ACCESS_SECRET//'1p93ZB8zfMVX337dm8aexsnhQnmvbPxC98uzyklj'
+	access_key: process.env.ACR_ACCESS_KEY,
+	access_secret: process.env.ACR_ACCESS_SECRET
 });
 
 // Enable cross domain

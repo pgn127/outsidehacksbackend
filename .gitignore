@@ -59,3 +59,4 @@ typings/
 
 outside_vision_credentials.json
 env.sh
+.DS_STORE

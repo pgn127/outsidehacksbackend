@@ -5,7 +5,9 @@ const bodyParser = require('body-parser');
 // const Vision = require('@google-cloud/vision');
 // const multer = require('multer')
 // let upload = multer()
-
+var uuid = require('node-uuid');
+var fs = require('fs-extra');
+var path = require('path');
 //
 const aws = require('aws-sdk');
   const multer = require('multer');
@@ -68,88 +70,162 @@ router.post('/api/recognizeCelebs', upload.single('photo'), function(req,res, ne
 })
 
 
+
+
+// const compareUpload = multer({
+//   storage: multerS3({
+//     s3,
+//     bucket: 'outsidecelebs',
+//     acl: 'public-read',
+//     metadata: function (req, file, cb) {
+// cb(null, {fieldName: file.fieldname});
+// },
+//     key(req, file, cb) {
+//         cb(null, file.originalname);// cb(null, file);// + '.png'
+//     }
+//   })
+// });
+
+
+
+router.post('/api/matchSteve', upload.single('photo'), function(req,res, next) {
+    // const imagePath = req.file.location;
+    // var bitmap = fs.readFileSync(imagePath);
+    // console.log('req.file', req.file);
+
+    var params = {
+        CollectionId: 'facematching',
+        FaceMatchThreshold: 90,
+        Image: {
+            // Bytes: bitmap//new Buffer('...') || 'STRING_VALUE',
+            S3Object: {
+                Bucket: 'outsidecelebs',
+                Name: req.file.originalname
+            }
+        },
+        MaxFaces: 1
+    };
+
+
+    rekognition.searchFacesByImage(params, function(err, data) {
+	 	if (err) {
+            res.status(400).json({error: err})
+            // (err);
+	 	} else {
+			if(data.FaceMatches && data.FaceMatches.length > 0 && data.FaceMatches[0].Face)
+			{
+                console.log('it matches ');
+				res.status(200).json({success: true, match: data.FaceMatches[0].Face});
+			} else {
+				res.status(200).json({success: false, error: 'Sorry, thats not Steve!'});
+			}
+		}
+	});
+})
+
+
 var ACRCloud = require( 'acr-cloud' );
 var acr = new ACRCloud({
-	access_key: process.env.ACR_ACCESS_KEY,
-	access_secret: process.env.ACR_ACCESS_SECRET
+	access_key: '5d4b56f25644448cd602a1185faf2c01',//process.env.ACR_ACCESS_KEY,
+	access_secret: '1p93ZB8zfMVX337dm8aexsnhQnmvbPxC98uzyklj'//process.env.ACR_ACCESS_SECRET
 });
+
+var defaultOptions = {
+  host: '###YOUR_HOST###',
+  endpoint: '/v1/identify',
+  signature_version: '1',
+  data_type:'audio',
+  secure: true,
+  access_key: '###YOUR_ACCESS_KEY###',
+  access_secret: '###YOUR_ACCESS_SECRET###'
+};
+
+
+
+
+
 
 // Enable cross domain
-router.use( function( req, res, next ) {
-	res.header( 'Access-Control-Allow-Origin', '*' );
-	res.header( 'Access-Control-Allow-Headers', 'X-Requested-With' );
-	next();
-});
-const sizeLimit = '5mb';
-router.use( bodyParser.json( { limit: sizeLimit } ) );
-router.use( bodyParser.urlencoded( { limit: sizeLimit, extended: true } ) );
-
-router.post( '/audio', function( req, res ) {
-    console.log('audio route req', req.body);
-	// Return error if the audio parameter was not sent
-	if( !req.body || !req.body.audio ) {
-        console.log('!req.body');
-		return req.send({
-			success: false,
-			msg: "Must have an audio parameter",
-			data: req.body
-		});
-	}
-
-	// HTML/JS base64 src audio file
-	// var buffer = req.body.audio.replace(/^data:audio\/wav;base64,/, "");
-	var buffer = req.body.audio;
-	acr.identify( buffer )
-	.then( function( data ) {
-		var response = JSON.parse( data.body );
-		if( data.statusCode == 200 && response.status ) {
-			var success = ( response.status.msg == 'Success' );
-			return res.send({
-				success: success,
-				msg: response.status.msg,
-				data: response
-			});
-            // return res.status(200).json({
-			// 	success: success,
-			// 	msg: response.status.msg,
-			// 	data: response
-			// });
-		} else {
-            return res.send({
-				success: false,
-				msg: "Error reaching API",
-				data: data
-			});
-			// return res.status(400).json({
-			// 	success: false,
-			// 	msg: "Error reaching API",
-			// 	data: data
-			// });
-		}
-		res.send({
-			success: true,
-			msg: "Found the audio",
-			data: data
-		})
-        // res.status(200).json({
-		// 	success: true,
-		// 	msg: "Found the audio",
-		// 	data: data
-		// })
-	})
-	.catch( function( err ) {
-		return res.send({
-			success: false,
-			msg: "Error identifying audio",
-			data: err
-		});
-        // return res.status(400).json({
-		// 	success: false,
-		// 	msg: "Error identifying audio",
-		// 	data: err
-		// });
-	})
-});
+// router.use( function( req, res, next ) {
+// 	res.header( 'Access-Control-Allow-Origin', '*' );
+// 	res.header( 'Access-Control-Allow-Headers', 'X-Requested-With' );
+// 	next();
+// });
+// const sizeLimit = '5mb';
+// router.use( bodyParser.json( { limit: sizeLimit } ) );
+// router.use( bodyParser.urlencoded( { limit: sizeLimit, extended: true } ) );
+//
+// router.post( '/audio', function( req, res ) {
+//     // console.log('audio route req', req.body);
+// 	// Return error if the audio parameter was not sent
+// 	if( !req.body || !req.body.audio ) {
+//         console.log('!req.body');
+//         res.status(400).json({
+// 			success: false,
+// 			msg: "Must have an audio parameter",
+// 			data: req.body
+// 		});
+// 		// return res.send({
+// 		// 	success: false,
+// 		// 	msg: "Must have an audio parameter",
+// 		// 	data: req.body
+// 		// });
+// 	}
+//
+// 	// HTML/JS base64 src audio file
+// 	// var buffer = req.body.audio.replace(/^data:audio\/wav;base64,/, "");
+// 	var buffer = req.body.audio;
+// 	acr.identify( buffer )
+// 	.then( function( data ) {
+// 		var response = JSON.parse( data.body );
+// 		if( data.statusCode == 200 && response.status ) {
+// 			var success = ( response.status.msg == 'Success' );
+// 			// return res.send({
+// 			// 	success: success,
+// 			// 	msg: response.status.msg,
+// 			// 	data: response
+// 			// });
+//             return res.status(200).json({
+// 				success: success,
+// 				msg: response.status.msg,
+// 				data: response
+// 			});
+// 		} else {
+//             // return res.send({
+// 			// 	success: false,
+// 			// 	msg: "Error reaching API",
+// 			// 	data: data
+// 			// });
+// 			return res.status(400).json({
+// 				success: false,
+// 				msg: "Error reaching API",
+// 				data: data
+// 			});
+// 		}
+// 		// res.send({
+// 		// 	success: true,
+// 		// 	msg: "Found the audio",
+// 		// 	data: data
+// 		// })
+//         res.status(200).json({
+// 			success: true,
+// 			msg: "Found the audio",
+// 			data: data
+// 		})
+// 	})
+// 	.catch( function( err ) {
+// 		// return res.send({
+// 		// 	success: false,
+// 		// 	msg: "Error identifying audio",
+// 		// 	data: err
+// 		// });
+//         return res.status(400).json({
+// 			success: false,
+// 			msg: "Error identifying audio",
+// 			data: err
+// 		});
+// 	})
+// });
 //
 //
 module.exports = router;

@@ -14,6 +14,7 @@
     "@google-cloud/vision": "^0.11.4",
     "acr-cloud": "^0.1.4",
     "aws": "0.0.3-2",
+    "aws-sdk": "^2.92.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mongoose": "^4.11.2",

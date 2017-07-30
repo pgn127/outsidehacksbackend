@@ -58,3 +58,4 @@ typings/
 .env
 
 outside_vision_credentials.json
+env.sh

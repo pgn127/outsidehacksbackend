@@ -124,6 +124,21 @@ router.post('/api/matchSteve', upload.single('photo'), function(req,res, next) {
 })
 
 
+
+const uploadMatch = multer({
+  storage: multerS3({
+    s3,
+    bucket: 'outsidehackers',
+    acl: 'public-read',
+    metadata: function (req, file, cb) {
+cb(null, {fieldName: file.fieldname});
+},
+    key(req, file, cb) {
+        cb(null, file.originalname);// cb(null, file);// + '.png'
+    }
+  })
+});
+
 var ACRCloud = require( 'acr-cloud' );
 var acr = new ACRCloud({
 	access_key: '5d4b56f25644448cd602a1185faf2c01',//process.env.ACR_ACCESS_KEY,

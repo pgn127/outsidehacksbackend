@@ -6,9 +6,6 @@ const bodyParser = require('body-parser');
 // const multer = require('multer')
 // let upload = multer()
 
-var uuid = require('node-uuid');
-var fs = require('fs-extra');
-var path = require('path');
 //
 const aws = require('aws-sdk');
   const multer = require('multer');

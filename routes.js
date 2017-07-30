@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-let formData = require('express-form-data')
-const Vision = require('@google-cloud/vision');
+// const mongoose = require('mongoose');
+// const Vision = require('@google-cloud/vision');
 // const multer = require('multer')
 // let upload = multer()
 
@@ -11,7 +10,6 @@ var uuid = require('node-uuid');
 var fs = require('fs-extra');
 var path = require('path');
 //
-// router.use(formData.parse(...connectMultipartyOptions));
 const aws = require('aws-sdk');
   const multer = require('multer');
   const multerS3 = require('multer-s3');

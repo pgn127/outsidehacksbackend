@@ -248,7 +248,12 @@ router.post('/vision/matchImage', upload.single('photo'), (req, res, next) => {
     } else {
         var info = JSON.parse(body);
         // console.log(info);
-        res.status(200).json({success: true, title: info.metadata.music[0].title})
+        if (info.metadata){
+          res.status(200).json({success: true, title: info.metadata.music[0].title})
+        }else{
+          res.status(200).json({success:false})
+        }
+
         // console.log(info.metadata.music);
         // console.log(info.metadata.music[0].artists);
     }

@@ -44,7 +44,7 @@ router.post('/api/recognizeCelebs', upload.single('photo'), function(req,res, ne
     // const imagePath = req.file.location;
     // var bitmap = fs.readFileSync(imagePath);
     // console.log('req.file', req.file);
-
+    console.log('entered recogognize celebs');
     var params = {
         Image: {
             // Bytes: bitmap//new Buffer('...') || 'STRING_VALUE',
@@ -184,25 +184,77 @@ router.post('/vision/matchImage', upload.single('photo'), (req, res, next) => {
    // res.status(200).json({result: req.file.location})
  })
 
-var ACRCloud = require( 'acr-cloud' );
-var acr = new ACRCloud({
-	access_key: '5d4b56f25644448cd602a1185faf2c01',//process.env.ACR_ACCESS_KEY,
-	access_secret: '1p93ZB8zfMVX337dm8aexsnhQnmvbPxC98uzyklj'//process.env.ACR_ACCESS_SECRET
-});
+ var ACRCloud = require( 'acr-cloud' );
+ // var acr = new ACRCloud({
+ //  access_key: '5d4b56f25644448cd602a1185faf2c01',//process.env.ACR_ACCESS_KEY,
+ //  access_secret: '1p93ZB8zfMVX337dm8aexsnhQnmvbPxC98uzyklj'//process.env.ACR_ACCESS_SECRET
+ // });
+ var url = require('url');
+ var fs = require('fs');
+ var crypto = require('crypto');
+ var request = require('request');
+ var defaultOptions = {
+   host: 'identify-us-west-2.acrcloud.com',
+   endpoint: '/v1/identify',
+   signature_version: '1',
+   data_type:'audio',
+   secure: true,
+   access_key: '5d4b56f25644448cd602a1185faf2c01',
+   access_secret: '1p93ZB8zfMVX337dm8aexsnhQnmvbPxC98uzyklj'
+ };
+ function buildStringToSign(method, uri, accessKey, dataType, signatureVersion, timestamp) {
+   return [method, uri, accessKey, dataType, signatureVersion, timestamp].join('\n');
+ }
+ function sign(signString, accessSecret) {
+   return crypto.createHmac('sha1', accessSecret)
+     .update(new Buffer(signString, 'utf-8'))
+     .digest().toString('base64');
+ }
+ router.use( bodyParser.json() );
+ router.use( bodyParser.urlencoded( {extended: true } ) );
+ function identify(data, options, cb) {
+   var current_data = new Date();
+   var timestamp = current_data.getTime()/1000;
+   var stringToSign = buildStringToSign('POST',
+     options.endpoint,
+     options.access_key,
+     options.data_type,
+     options.signature_version,
+     timestamp);
+   var signature = sign(stringToSign, options.access_secret);
+   var formData = {
+     sample: data,
+     access_key:options.access_key,
+     data_type:options.data_type,
+     signature_version:options.signature_version,
+     signature:signature,
+     sample_bytes:data.length,
+     timestamp:timestamp,
+   }
+   request.post({
+     url: "http://"+options.host + options.endpoint,
+     method: 'POST',
+     formData: formData
+   }, cb);
+ }
+ router.post('/audio', function(req,res){
+   // res.json({req:req})
+   var buf = Buffer.from(req.body.audio, 'base64');
+   identify(buf, defaultOptions, function (err, httpResponse, body) {
+     if (err) {
 
-var defaultOptions = {
-  host: '###YOUR_HOST###',
-  endpoint: '/v1/identify',
-  signature_version: '1',
-  data_type:'audio',
-  secure: true,
-  access_key: '###YOUR_ACCESS_KEY###',
-  access_secret: '###YOUR_ACCESS_SECRET###'
-};
+        //  console.log(err);
+        res.status(400).json({success:false, error: err})
+    } else {
+        var info = JSON.parse(body);
+        // console.log(info);
+        res.status(200).json({success: true, title: info.metadata.music[0].title})
+        // console.log(info.metadata.music);
+        // console.log(info.metadata.music[0].artists);
+    }
 
-
-
-
+   });
+ })
 
 
 // Enable cross domain

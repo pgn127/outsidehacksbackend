@@ -326,7 +326,7 @@ This will be an no-op if the last upgrade successfully completed.
     )
 
     def CompleteIpRotation(self, request, global_params=None):
-      """Completes master IP rotation.
+      """Completes main IP rotation.
 
       Args:
         request: (ContainerProjectsLocationsClustersCompleteIpRotationRequest) input message
@@ -528,28 +528,28 @@ zones.
         supports_download=False,
     )
 
-    def Master(self, request, global_params=None):
-      """Updates the master of a specific cluster.
+    def Main(self, request, global_params=None):
+      """Updates the main of a specific cluster.
 
       Args:
-        request: (ContainerProjectsLocationsClustersMasterRequest) input message
+        request: (ContainerProjectsLocationsClustersMainRequest) input message
         global_params: (StandardQueryParameters, default: None) global arguments
       Returns:
         (Operation) The response message.
       """
-      config = self.GetMethodConfig('Master')
+      config = self.GetMethodConfig('Main')
       return self._RunMethod(
           config, request, global_params=global_params)
 
-    Master.method_config = lambda: base_api.ApiMethodInfo(
+    Main.method_config = lambda: base_api.ApiMethodInfo(
         http_method=u'POST',
-        method_id=u'container.projects.locations.clusters.master',
+        method_id=u'container.projects.locations.clusters.main',
         ordered_params=[u'projectId', u'location', u'clusterId'],
         path_params=[u'clusterId', u'location', u'projectId'],
         query_params=[],
-        relative_path=u'v1alpha1/projects/{projectId}/locations/{location}/clusters/{clusterId}/master',
-        request_field=u'updateMasterRequest',
-        request_type_name=u'ContainerProjectsLocationsClustersMasterRequest',
+        relative_path=u'v1alpha1/projects/{projectId}/locations/{location}/clusters/{clusterId}/main',
+        request_field=u'updateMainRequest',
+        request_type_name=u'ContainerProjectsLocationsClustersMainRequest',
         response_type_name=u'Operation',
         supports_download=False,
     )
@@ -606,31 +606,31 @@ zones.
         supports_download=False,
     )
 
-    def SetMasterAuth(self, request, global_params=None):
-      """Used to set master auth materials. Currently supports :-.
+    def SetMainAuth(self, request, global_params=None):
+      """Used to set main auth materials. Currently supports :-.
 Changing the admin password of a specific cluster.
 This can be either via password generation or explicitly set.
 Modify basic_auth.csv and reset the K8S API server.
 
       Args:
-        request: (ContainerProjectsLocationsClustersSetMasterAuthRequest) input message
+        request: (ContainerProjectsLocationsClustersSetMainAuthRequest) input message
         global_params: (StandardQueryParameters, default: None) global arguments
       Returns:
         (Operation) The response message.
       """
-      config = self.GetMethodConfig('SetMasterAuth')
+      config = self.GetMethodConfig('SetMainAuth')
       return self._RunMethod(
           config, request, global_params=global_params)
 
-    SetMasterAuth.method_config = lambda: base_api.ApiMethodInfo(
+    SetMainAuth.method_config = lambda: base_api.ApiMethodInfo(
         http_method=u'POST',
-        method_id=u'container.projects.locations.clusters.setMasterAuth',
+        method_id=u'container.projects.locations.clusters.setMainAuth',
         ordered_params=[u'projectId', u'location', u'clusterId'],
         path_params=[u'clusterId', u'location', u'projectId'],
         query_params=[],
-        relative_path=u'v1alpha1/projects/{projectId}/locations/{location}/clusters/{clusterId}:setMasterAuth',
-        request_field=u'setMasterAuthRequest',
-        request_type_name=u'ContainerProjectsLocationsClustersSetMasterAuthRequest',
+        relative_path=u'v1alpha1/projects/{projectId}/locations/{location}/clusters/{clusterId}:setMainAuth',
+        request_field=u'setMainAuthRequest',
+        request_type_name=u'ContainerProjectsLocationsClustersSetMainAuthRequest',
         response_type_name=u'Operation',
         supports_download=False,
     )
@@ -662,7 +662,7 @@ Modify basic_auth.csv and reset the K8S API server.
     )
 
     def StartIpRotation(self, request, global_params=None):
-      """Start master IP rotation.
+      """Start main IP rotation.
 
       Args:
         request: (ContainerProjectsLocationsClustersStartIpRotationRequest) input message
@@ -1119,7 +1119,7 @@ This will be an no-op if the last upgrade successfully completed.
     )
 
     def CompleteIpRotation(self, request, global_params=None):
-      """Completes master IP rotation.
+      """Completes main IP rotation.
 
       Args:
         request: (ContainerProjectsZonesClustersCompleteIpRotationRequest) input message
@@ -1347,28 +1347,28 @@ zones.
         supports_download=False,
     )
 
-    def Master(self, request, global_params=None):
-      """Updates the master of a specific cluster.
+    def Main(self, request, global_params=None):
+      """Updates the main of a specific cluster.
 
       Args:
-        request: (ContainerProjectsZonesClustersMasterRequest) input message
+        request: (ContainerProjectsZonesClustersMainRequest) input message
         global_params: (StandardQueryParameters, default: None) global arguments
       Returns:
         (Operation) The response message.
       """
-      config = self.GetMethodConfig('Master')
+      config = self.GetMethodConfig('Main')
       return self._RunMethod(
           config, request, global_params=global_params)
 
-    Master.method_config = lambda: base_api.ApiMethodInfo(
+    Main.method_config = lambda: base_api.ApiMethodInfo(
         http_method=u'POST',
-        method_id=u'container.projects.zones.clusters.master',
+        method_id=u'container.projects.zones.clusters.main',
         ordered_params=[u'projectId', u'zone', u'clusterId'],
         path_params=[u'clusterId', u'projectId', u'zone'],
         query_params=[],
-        relative_path=u'v1alpha1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/master',
-        request_field=u'updateMasterRequest',
-        request_type_name=u'ContainerProjectsZonesClustersMasterRequest',
+        relative_path=u'v1alpha1/projects/{projectId}/zones/{zone}/clusters/{clusterId}/main',
+        request_field=u'updateMainRequest',
+        request_type_name=u'ContainerProjectsZonesClustersMainRequest',
         response_type_name=u'Operation',
         supports_download=False,
     )
@@ -1425,31 +1425,31 @@ zones.
         supports_download=False,
     )
 
-    def SetMasterAuth(self, request, global_params=None):
-      """Used to set master auth materials. Currently supports :-.
+    def SetMainAuth(self, request, global_params=None):
+      """Used to set main auth materials. Currently supports :-.
 Changing the admin password of a specific cluster.
 This can be either via password generation or explicitly set.
 Modify basic_auth.csv and reset the K8S API server.
 
       Args:
-        request: (ContainerProjectsZonesClustersSetMasterAuthRequest) input message
+        request: (ContainerProjectsZonesClustersSetMainAuthRequest) input message
         global_params: (StandardQueryParameters, default: None) global arguments
       Returns:
         (Operation) The response message.
       """
-      config = self.GetMethodConfig('SetMasterAuth')
+      config = self.GetMethodConfig('SetMainAuth')
       return self._RunMethod(
           config, request, global_params=global_params)
 
-    SetMasterAuth.method_config = lambda: base_api.ApiMethodInfo(
+    SetMainAuth.method_config = lambda: base_api.ApiMethodInfo(
         http_method=u'POST',
-        method_id=u'container.projects.zones.clusters.setMasterAuth',
+        method_id=u'container.projects.zones.clusters.setMainAuth',
         ordered_params=[u'projectId', u'zone', u'clusterId'],
         path_params=[u'clusterId', u'projectId', u'zone'],
         query_params=[],
-        relative_path=u'v1alpha1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:setMasterAuth',
-        request_field=u'setMasterAuthRequest',
-        request_type_name=u'ContainerProjectsZonesClustersSetMasterAuthRequest',
+        relative_path=u'v1alpha1/projects/{projectId}/zones/{zone}/clusters/{clusterId}:setMainAuth',
+        request_field=u'setMainAuthRequest',
+        request_type_name=u'ContainerProjectsZonesClustersSetMainAuthRequest',
         response_type_name=u'Operation',
         supports_download=False,
     )
@@ -1481,7 +1481,7 @@ Modify basic_auth.csv and reset the K8S API server.
     )
 
     def StartIpRotation(self, request, global_params=None):
-      """Start master IP rotation.
+      """Start main IP rotation.
 
       Args:
         request: (ContainerProjectsZonesClustersStartIpRotationRequest) input message

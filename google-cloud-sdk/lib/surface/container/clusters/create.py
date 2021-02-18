@@ -196,7 +196,7 @@ class Create(base.CreateCommand):
     flags.AddEnableAutoRepairFlag(parser, suppressed=True)
     flags.AddEnableAutoUpgradeFlag(parser, suppressed=True)
     flags.AddServiceAccountFlag(parser, suppressed=True)
-    flags.AddMasterAuthorizedNetworksFlags(parser, hidden=True)
+    flags.AddMainAuthorizedNetworksFlags(parser, hidden=True)
     flags.AddEnableLegacyAuthorizationFlag(parser, hidden=True)
     flags.AddLabelsFlag(parser, suppressed=True)
     flags.AddNetworkPolicyFlags(parser, hidden=True)
@@ -234,9 +234,9 @@ class Create(base.CreateCommand):
         enable_autorepair=args.enable_autorepair,
         enable_autoupgrade=args.enable_autoupgrade,
         service_account=args.service_account,
-        enable_master_authorized_networks=args.
-        enable_master_authorized_networks,
-        master_authorized_networks=args.master_authorized_networks,
+        enable_main_authorized_networks=args.
+        enable_main_authorized_networks,
+        main_authorized_networks=args.main_authorized_networks,
         enable_legacy_authorization=args.enable_legacy_authorization,
         labels=args.labels,
         disk_type=args.disk_type,
@@ -325,7 +325,7 @@ class CreateBeta(Create):
     flags.AddEnableAutoRepairFlag(parser)
     flags.AddEnableAutoUpgradeFlag(parser)
     flags.AddServiceAccountFlag(parser)
-    flags.AddMasterAuthorizedNetworksFlags(parser, hidden=True)
+    flags.AddMainAuthorizedNetworksFlags(parser, hidden=True)
     flags.AddEnableLegacyAuthorizationFlag(parser)
     flags.AddLabelsFlag(parser)
     flags.AddNetworkPolicyFlags(parser, hidden=True)
@@ -346,7 +346,7 @@ class CreateAlpha(Create):
     flags.AddEnableAutoRepairFlag(parser)
     flags.AddEnableAutoUpgradeFlag(parser)
     flags.AddServiceAccountFlag(parser)
-    flags.AddMasterAuthorizedNetworksFlags(parser, hidden=True)
+    flags.AddMainAuthorizedNetworksFlags(parser, hidden=True)
     flags.AddEnableLegacyAuthorizationFlag(parser)
     flags.AddLabelsFlag(parser)
     flags.AddNetworkPolicyFlags(parser, hidden=False)
